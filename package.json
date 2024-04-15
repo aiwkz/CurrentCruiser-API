@@ -1,0 +1,39 @@
+{
+  "name": "currentcruiser",
+  "version": "1.0.0",
+  "description": "A platform for exploring electric vehicles, their history, technology, and models.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js", // Script to start the server
+    "dev": "nodemon index.js", // Script to start the server in development mode using nodemon
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Federico Javier Perez Patiño",
+  "license": "ISC",
+  "keywords": [
+    "electric",
+    "vehicles",
+    "EV",
+    "cars",
+    "history",
+    "technology"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aiwkz/CurrentCruiser"
+  },
+  "homepage": "https://yourprojecthomepage.com",
+  "engines": {
+    "node": ">=18.16.0",
+    "npm": ">=9.5.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1", // Library for hashing passwords
+    "express": "^4.19.2", // Web framework for Node.js
+    "mongoose": "^8.3.1" // MongoDB object modeling tool
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0" // Utility that automatically restarts the server when changes are detected
+  }
+}
