@@ -1,7 +1,4 @@
-import bcrypt from 'bcrypt';
-
 import User from '../models/User.js';
-import { createJwtToken } from '../utils/authMiddleware.js';
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -23,7 +20,6 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-
 export const getUserById = async (req, res) => {
   try {
     // Extract the user ID from the request parameters
@@ -38,43 +34,8 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ msg: 'User not found', status: 'error' });
     }
 
-    // Send a 200 response with the user object
+    // Send a 200 response with the user
     res.status(200).json({ msg: 'Found user', user: foundUser, status: 'ok' });
-  } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
-  }
-};
-
-export const createUser = async (req, res) => {
-  try {
-    // Extract user data from the request body
-    const { username, email, password } = req.body;
-
-    // Check if user already exists
-    let existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return res.status(400).json({ msg: 'User already exists', status: 'error' });
-    }
-
-    // Create a new user instance
-    const newUser = new User({ username, email, password });
-
-    // Encrypt the password
-    const saltRounds = 10;
-    newUser.password = await bcrypt.hash(password, saltRounds);
-
-    // Save the user to the database
-    await newUser.save();
-
-    // Generate JWT token
-    const token = createJwtToken(newUser);
-
-    // Return success message with JWT token and user details
-    res.status(200).json({ msg: 'User created successfully', jwttoken: token, user: newUser, status: 'ok' });
   } catch (error) {
     // Log any errors to the console
     console.error(error);
@@ -86,32 +47,36 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    let { username, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Check if the user exists
-    const foundUser = await User.findById(id);
+    const foundUser = await User.findById(id).lean();
 
     if (!foundUser) {
       return res.status(404).json({ msg: 'User not found', status: 'error' });
     }
 
-    const saltRounds = 10;
-    password = await bcrypt.hash(password, saltRounds);
-
     // Update user data
     const updatedUser = {
-      ...foundUser.toObject(),
-      username,
-      email,
-      password,
+      ...foundUser, // Convert Mongoose document to plain JavaScript object
+      username: username && username,
+      email: email && email,
+      password: password && password,
+      updated_at: new Date().toISOString(), // Add date to updated_at and convert it to ISO string format
     };
 
-    // Save the updated user
-    await foundUser.save();
+    // Save the updated user to the database
+    const userAfterUpdate = await User.findByIdAndUpdate(
+      id,
+      updatedUser,
+      { new: true }
+    ).lean();
 
-    delete updatedUser.password;
+    // Delete the password field from the updated user object
+    delete userAfterUpdate.password;
 
-    res.status(200).json({ msg: 'User updated successfully', user: updatedUser, status: 'ok' });
+    // Send a 200 response with the updated user
+    res.status(200).json({ msg: 'User updated successfully', user: userAfterUpdate, status: 'ok' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', status: 'error' });
@@ -123,8 +88,12 @@ export const deleteUser = async (req, res) => {
     // Extract the user ID from the request parameters
     const { id } = req.params;
 
-    // Find the user by ID in the database
-    const userToDelete = await User.findById(id);
+    // Update the user in the database with the deleted_at field
+    const userToDelete = await User.findByIdAndUpdate(
+      id,
+      { deleted_at: new Date().toISOString() },
+      { new: true }
+    ).lean();
 
     // Check if the user exists
     if (!userToDelete) {
@@ -132,11 +101,7 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ msg: 'User not found', status: 'error' });
     }
 
-    // Set the deleted_at timestamp
-    userToDelete.deleted_at = new Date();
-
-    await userToDelete.save();
-
+    // Delete the password field
     delete userToDelete.password;
 
     // Send a 200 response with a success message
