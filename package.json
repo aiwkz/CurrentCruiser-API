@@ -1,5 +1,5 @@
 {
-  "name": "currentcruiser",
+  "name": "currentcruiserapi",
   "version": "1.0.0",
   "description": "A platform for exploring electric vehicles, their history, technology, and models.",
   "main": "./config/server.js",

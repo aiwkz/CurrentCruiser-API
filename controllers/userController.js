@@ -6,7 +6,7 @@ import { createJwtToken } from '../utils/authMiddleware.js';
 export const getAllUsers = async (req, res) => {
   try {
     // Find all users that do not have a deleted_at timestamp
-    const users = await User.find({ deleted_at: { $ne: null } });
+    const users = await User.find({ deleted_at: { $exists: true } });
 
     // Check if users array is empty
     if (users.length === 0) {
