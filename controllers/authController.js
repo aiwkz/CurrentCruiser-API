@@ -12,7 +12,7 @@ export const registerUser = async (req, res) => {
     let user = await User.findOne({ email }).lean();
 
     if (user) {
-      return res.status(400).json({ msg: 'User already exists' });
+      return res.status(400).json({ msg: 'User already exists', status: 'error' });
     }
 
     // Create a new user instance
@@ -37,7 +37,7 @@ export const registerUser = async (req, res) => {
     res.status(200).json({ msg: 'User registered!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Registration failed');
+    res.status(500).json({ message: 'Registration failed', status: 'error' });
   }
 };
 
@@ -50,14 +50,14 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email }).lean();
 
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ msg: 'Invalid credentials', status: 'error' });
     }
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ msg: 'Invalid credentials', status: 'error' });
     }
 
     // Generate JWT token
@@ -68,6 +68,6 @@ export const loginUser = async (req, res) => {
     res.status(200).json({ msg: 'User logged in correctly!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: 'Server error', status: 'error' });
   }
 };
