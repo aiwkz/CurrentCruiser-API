@@ -3,10 +3,11 @@ import User from '../models/User.js';
 export const getAllUsers = async (req, res) => {
   try {
     // Find all users that do not have a deleted_at timestamp
-    const users = await User.find({ deleted_at: { $exists: true } });
+    const users = await User.find({ deleted_at: null });
 
     // Check if users array is empty
     if (users.length === 0) {
+      // If there are no users found, send a 404 response with a message
       return res.status(404).json({ msg: 'No active users found', status: 'error' });
     }
 
@@ -30,7 +31,7 @@ export const getUserById = async (req, res) => {
 
     // Check if the user exists
     if (!foundUser) {
-      // If user not found, send a 404 response with a message
+      // If user was not found, send a 404 response with a message
       return res.status(404).json({ msg: 'User not found', status: 'error' });
     }
 
@@ -46,42 +47,49 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    // Extract user ID from request parameters
     const { id } = req.params;
+
+    // Extract user details from request body
     const { username, email, password } = req.body;
 
-    // Check if the user exists
-    const foundUser = await User.findById(id).lean();
-
-    if (!foundUser) {
-      return res.status(404).json({ msg: 'User not found', status: 'error' });
+    // Check if at least one required field is missing
+    if (!username && !email && !password) {
+      // If none of the fields are found on the req.body, send a 400 response with a message
+      return res.status(400).json({ msg: 'At least one of username, email, or password is required', status: 'error' });
     }
 
-    // Update user data
-    const updatedUser = {
-      ...foundUser, // Convert Mongoose document to plain JavaScript object
+    // Construct update object with provided fields
+    const updateFields = {
       username: username && username,
       email: email && email,
       password: password && password,
       updated_at: new Date().toISOString(), // Add date to updated_at and convert it to ISO string format
     };
 
-    // Save the updated user to the database
-    const userAfterUpdate = await User.findByIdAndUpdate(
-      id,
-      updatedUser,
+    // Find and update the user in the database
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: id },
+      { $set: updateFields },
       { new: true }
     ).lean();
 
+    // Check if the user exists
+    if (!updatedUser) {
+      return res.status(404).json({ msg: 'User not found', status: 'error' });
+    }
+
     // Delete the password field from the updated user object
-    delete userAfterUpdate.password;
+    delete updatedUser.password;
 
     // Send a 200 response with the updated user
-    res.status(200).json({ msg: 'User updated successfully', user: userAfterUpdate, status: 'ok' });
+    res.status(200).json({ msg: 'User updated successfully', user: updatedUser, status: 'ok' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error', status: 'error' });
   }
 };
+
 
 export const deleteUser = async (req, res) => {
   try {

@@ -7,13 +7,16 @@ const carSchema = new Schema({
   history: String,
   description: String,
   specifications: {
-    Motor: String,
-    Horsepower: String,
+    motor: String,
+    horsepower: String,
     mph0to60: String,
     topSpeed: String
   },
   category_id: String,
-  available_in_market: Boolean
+  available_in_market: Boolean,
+  created_at: { type: String, default: new Date().toISOString() },
+  updated_at: { type: String, default: new Date().toISOString() },
+  deleted_at: { type: String, default: null },
 }, { collection: 'cars' });
 
 const Car = mongoose.model('Car', carSchema);
