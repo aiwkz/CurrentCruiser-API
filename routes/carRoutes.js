@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import { isAdmin } from '../middlewares/validationMiddleware.js';
 import {
   createCar,
   getAllCars,
@@ -12,7 +13,7 @@ const router = Router();
 
 // Route: POST /api/cars/create
 // Description: Create a new car
-router.post('/create', createCar);
+router.post('/create', isAdmin, createCar);
 
 // Route: GET /api/cars
 // Description: Get all cars
@@ -24,10 +25,10 @@ router.get('/:id', getCarById);
 
 // Route: PUT /api/cars/:id
 // Description: Update a car by ID
-router.put('/:id', updateCar);
+router.put('/:id', isAdmin, updateCar);
 
 // Route: DELETE /api/cars/:id
 // Description: Delete a car by ID
-router.delete('/:id', deleteCar);
+router.delete('/:id', isAdmin, deleteCar);
 
 export default router;

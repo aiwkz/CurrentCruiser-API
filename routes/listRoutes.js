@@ -1,4 +1,6 @@
 import { Router } from 'express';
+
+import { isAdmin } from '../middlewares/validationMiddleware.js';
 import {
   createList,
   getAllLists,
@@ -16,7 +18,7 @@ router.post('/create', createList);
 
 // Route: GET /api/lists/all
 // Description: Get all lists
-router.get('/all', getAllLists);
+router.get('/all', isAdmin, getAllLists);
 
 // Route: GET /api/lists/:id
 // Description: Get a list by ID
