@@ -5,7 +5,7 @@ import connectDB from './database.js';
 
 import authRoutes from '../routes/authRoutes.js';
 import carRoutes from '../routes/carRoutes.js';
-// import listRoutes from '../routes/listRoutes.js';
+import listRoutes from '../routes/listRoutes.js';
 import userRoutes from '../routes/userRoutes.js';
 
 // Load environment variables from .env file
@@ -29,7 +29,7 @@ connectDB();
 // Route setup
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
-// app.use('/api/lists', listRoutes);
+app.use('/api/lists', listRoutes);
 app.use('/api/users', userRoutes);
 
 // Start the server

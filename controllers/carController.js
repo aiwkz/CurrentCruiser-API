@@ -133,7 +133,9 @@ export const updateCar = async (req, res) => {
     // Send a 200 response with the updated car
     res.status(200).json({ msg: 'Car updated successfully', car: updatedCar, status: 'ok' });
   } catch (error) {
+    // Log any errors to the console
     console.error(error);
+    // Send a 500 response with an error message
     res.status(500).json({ message: 'Server error', status: 'error' });
   }
 };

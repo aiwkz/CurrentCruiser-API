@@ -85,7 +85,9 @@ export const updateUser = async (req, res) => {
     // Send a 200 response with the updated user
     res.status(200).json({ msg: 'User updated successfully', user: updatedUser, status: 'ok' });
   } catch (error) {
+    // Log any errors to the console
     console.error(error);
+    // Send a 500 response with an error message
     res.status(500).json({ message: 'Server error', status: 'error' });
   }
 };
