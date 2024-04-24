@@ -3,6 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './database.js';
 
+import errorLogger from '../middlewares/errorLoggerMiddleware.js';
+import errorHandler from '../middlewares/errorHandlerMiddleware.js';
+
 import authRoutes from '../routes/authRoutes.js';
 import carRoutes from '../routes/carRoutes.js';
 import listRoutes from '../routes/listRoutes.js';
@@ -22,6 +25,8 @@ console.clear();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(errorLogger);
+app.use(errorHandler);
 
 // Connect to the database
 connectDB();

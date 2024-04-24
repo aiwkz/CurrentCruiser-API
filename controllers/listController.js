@@ -1,6 +1,6 @@
 import List from '../models/List.js';
 
-export const createList = async (req, res) => {
+export const createList = async (req, res, next) => {
   try {
     // Extract list details from the request body
     const {
@@ -28,14 +28,12 @@ export const createList = async (req, res) => {
     // Send a 200 response with the created list
     res.status(200).json({ msg: 'List created successfully', list: newList, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getAllLists = async (req, res) => {
+export const getAllLists = async (req, res, next) => {
   try {
     // Retrieve all lists from the database
     const lists = await List.find({ deleted_at: null });
@@ -49,14 +47,12 @@ export const getAllLists = async (req, res) => {
     // Send a 200 response with the lists array
     res.status(200).json({ msg: 'All lists', lists: lists, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getListById = async (req, res) => {
+export const getListById = async (req, res, next) => {
   try {
     // Extract the list ID from the request parameters
     const { id } = req.params;
@@ -73,14 +69,12 @@ export const getListById = async (req, res) => {
     // Send a 200 response with the list
     res.status(200).json({ msg: 'Found list', list: foundList, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getListsByUserId = async (req, res) => {
+export const getListsByUserId = async (req, res, next) => {
   try {
     // Extract the user ID from the request parameters
     const { userId } = req.params;
@@ -97,14 +91,12 @@ export const getListsByUserId = async (req, res) => {
     // Send a 200 response with the lists associated with the user
     res.status(200).json({ msg: 'Lists found for this user', lists: userLists, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const updateList = async (req, res) => {
+export const updateList = async (req, res, next) => {
   try {
     // Extract list ID from request parameters
     const { id } = req.params;
@@ -145,14 +137,12 @@ export const updateList = async (req, res) => {
     // Send a 200 response with the updated list
     res.status(200).json({ msg: 'List updated successfully', list: updatedList, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const deleteList = async (req, res) => {
+export const deleteList = async (req, res, next) => {
   try {
     // Extract the list ID from the request parameters
     const { id } = req.params;
@@ -173,9 +163,7 @@ export const deleteList = async (req, res) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'List deleted successfully', list: listToDelete, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };

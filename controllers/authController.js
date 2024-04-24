@@ -4,7 +4,7 @@ import User from '../models/User.js';
 import { createJwtToken } from '../middlewares/authMiddleware.js';
 
 // Function to register a new user
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   try {
@@ -36,13 +36,13 @@ export const registerUser = async (req, res) => {
 
     res.status(200).json({ msg: 'User registered!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Registration failed', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
 // Function to log in a user
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -67,7 +67,7 @@ export const loginUser = async (req, res) => {
 
     res.status(200).json({ msg: 'User logged in correctly!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };

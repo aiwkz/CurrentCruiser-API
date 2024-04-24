@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res, next) => {
   try {
     // Find all users that do not have a deleted_at timestamp
     const users = await User.find({ deleted_at: null });
@@ -14,14 +14,12 @@ export const getAllUsers = async (req, res) => {
     // Send a 200 response with the users array
     res.status(200).json({ msg: 'All users list', users: users, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (req, res, next) => {
   try {
     // Extract the user ID from the request parameters
     const { id } = req.params;
@@ -38,14 +36,12 @@ export const getUserById = async (req, res) => {
     // Send a 200 response with the user
     res.status(200).json({ msg: 'Found user', user: foundUser, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req, res, next) => {
   try {
     // Extract user ID from request parameters
     const { id } = req.params;
@@ -85,15 +81,13 @@ export const updateUser = async (req, res) => {
     // Send a 200 response with the updated user
     res.status(200).json({ msg: 'User updated successfully', user: updatedUser, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res, next) => {
   try {
     // Extract the user ID from the request parameters
     const { id } = req.params;
@@ -117,9 +111,7 @@ export const deleteUser = async (req, res) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'User deleted successfully', user: userToDelete, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };

@@ -1,6 +1,6 @@
 import Car from '../models/Car.js';
 
-export const createCar = async (req, res) => {
+export const createCar = async (req, res, next) => {
   try {
     // Extract car details from the request body
     const {
@@ -34,14 +34,12 @@ export const createCar = async (req, res) => {
     // Send a 200 response with the created car
     res.status(200).json({ msg: 'Car created successfully', car: newCar, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getAllCars = async (req, res) => {
+export const getAllCars = async (req, res, next) => {
   try {
     // Retrieve all cars from the database
     const cars = await Car.find({ deleted_at: null });
@@ -55,14 +53,12 @@ export const getAllCars = async (req, res) => {
     // Send a 200 response with the cars array
     res.status(200).json({ msg: 'All cars list', cars: cars, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const getCarById = async (req, res) => {
+export const getCarById = async (req, res, next) => {
   try {
     // Extract the car ID from the request parameters
     const { id } = req.params;
@@ -79,14 +75,12 @@ export const getCarById = async (req, res) => {
     // Send a 200 response with the car
     res.status(200).json({ msg: 'Found car', car: foundCar, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
-export const updateCar = async (req, res) => {
+export const updateCar = async (req, res, next) => {
   try {
     // Extract car ID from request parameters
     const { id } = req.params;
@@ -133,15 +127,13 @@ export const updateCar = async (req, res) => {
     // Send a 200 response with the updated car
     res.status(200).json({ msg: 'Car updated successfully', car: updatedCar, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
 
 
-export const deleteCar = async (req, res) => {
+export const deleteCar = async (req, res, next) => {
   try {
     // Extract the car ID from the request parameters
     const { id } = req.params;
@@ -162,9 +154,7 @@ export const deleteCar = async (req, res) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'Car deleted successfully', car: carToDelete, status: 'ok' });
   } catch (error) {
-    // Log any errors to the console
-    console.error(error);
-    // Send a 500 response with an error message
-    res.status(500).json({ message: 'Server error', status: 'error' });
+    // Pass the error to the next middleware (i.e., the errorHandler)
+    next(error);
   }
 };
