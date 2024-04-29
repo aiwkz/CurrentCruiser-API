@@ -28,7 +28,7 @@ export const createList = async (req, res, next) => {
     // Send a 200 response with the created list
     res.status(200).json({ msg: 'List created successfully', list: newList, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -47,7 +47,7 @@ export const getAllLists = async (req, res, next) => {
     // Send a 200 response with the lists array
     res.status(200).json({ msg: 'All lists', lists: lists, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -69,7 +69,7 @@ export const getListById = async (req, res, next) => {
     // Send a 200 response with the list
     res.status(200).json({ msg: 'Found list', list: foundList, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -91,7 +91,7 @@ export const getListsByUserId = async (req, res, next) => {
     // Send a 200 response with the lists associated with the user
     res.status(200).json({ msg: 'Lists found for this user', lists: userLists, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -137,7 +137,7 @@ export const updateList = async (req, res, next) => {
     // Send a 200 response with the updated list
     res.status(200).json({ msg: 'List updated successfully', list: updatedList, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -163,7 +163,7 @@ export const deleteList = async (req, res, next) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'List deleted successfully', list: listToDelete, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };

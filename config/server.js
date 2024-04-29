@@ -10,6 +10,7 @@ import authRoutes from '../routes/authRoutes.js';
 import carRoutes from '../routes/carRoutes.js';
 import listRoutes from '../routes/listRoutes.js';
 import userRoutes from '../routes/userRoutes.js';
+import categoriesRoutes from '../routes/categoryRoutes.js'
 
 // Load environment variables from .env file
 dotenv.config();
@@ -36,6 +37,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/lists', listRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/categories', categoriesRoutes);
 
 // Start the server
 app.listen(PORT, () => {
