@@ -34,7 +34,7 @@ export const createCar = async (req, res, next) => {
     // Send a 200 response with the created car
     res.status(200).json({ msg: 'Car created successfully', car: newCar, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -53,7 +53,7 @@ export const getAllCars = async (req, res, next) => {
     // Send a 200 response with the cars array
     res.status(200).json({ msg: 'All cars list', cars: cars, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -75,7 +75,7 @@ export const getCarById = async (req, res, next) => {
     // Send a 200 response with the car
     res.status(200).json({ msg: 'Found car', car: foundCar, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -127,7 +127,7 @@ export const updateCar = async (req, res, next) => {
     // Send a 200 response with the updated car
     res.status(200).json({ msg: 'Car updated successfully', car: updatedCar, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -154,7 +154,7 @@ export const deleteCar = async (req, res, next) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'Car deleted successfully', car: carToDelete, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };

@@ -36,7 +36,7 @@ export const registerUser = async (req, res, next) => {
 
     res.status(200).json({ msg: 'User registered!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -67,7 +67,7 @@ export const loginUser = async (req, res, next) => {
 
     res.status(200).json({ msg: 'User logged in correctly!', jwttoken: token, user: user, status: 'ok' })
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };

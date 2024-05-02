@@ -14,7 +14,7 @@ export const getAllUsers = async (req, res, next) => {
     // Send a 200 response with the users array
     res.status(200).json({ msg: 'All users list', users: users, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -36,7 +36,7 @@ export const getUserById = async (req, res, next) => {
     // Send a 200 response with the user
     res.status(200).json({ msg: 'Found user', user: foundUser, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -81,7 +81,7 @@ export const updateUser = async (req, res, next) => {
     // Send a 200 response with the updated user
     res.status(200).json({ msg: 'User updated successfully', user: updatedUser, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
@@ -111,7 +111,7 @@ export const deleteUser = async (req, res, next) => {
     // Send a 200 response with a success message
     res.status(200).json({ msg: 'User deleted successfully', user: userToDelete, status: 'ok' });
   } catch (error) {
-    // Pass the error to the next middleware (i.e., the errorHandler)
+    // Pass the error to the next middleware (errorHandler)
     next(error);
   }
 };
