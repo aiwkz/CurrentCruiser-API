@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './database.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 import errorLogger from '../middlewares/errorLoggerMiddleware.js';
 import errorHandler from '../middlewares/errorHandlerMiddleware.js';
@@ -10,7 +12,10 @@ import authRoutes from '../routes/authRoutes.js';
 import carRoutes from '../routes/carRoutes.js';
 import listRoutes from '../routes/listRoutes.js';
 import userRoutes from '../routes/userRoutes.js';
-import categoriesRoutes from '../routes/categoryRoutes.js'
+import categoriesRoutes from '../routes/categoryRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Load environment variables from .env file
 dotenv.config();
@@ -38,6 +43,7 @@ app.use('/api/cars', carRoutes);
 app.use('/api/lists', listRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/assets/images', express.static(join(__dirname, '../assets/images')));
 
 // Start the server
 app.listen(PORT, () => {
