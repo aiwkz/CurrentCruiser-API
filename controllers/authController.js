@@ -20,6 +20,7 @@ export const registerUser = async (req, res, next) => {
       username,
       email,
       password,
+      role: 'user'
     });
 
     // Encrypt the password

@@ -9,22 +9,24 @@ export const isAdmin = (req, res, next) => {
   }
 
   try {
+
     // Verify and decode the JWT
     const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
 
     // Check if user has admin role
     if (decodedUser.role === 'admin') {
       // If user is admin, allow access to the next middleware or endpoint
-      next();
+      return next();
     }
 
     // If user is not admin, send a 403 Forbidden response
     return res.status(403).json({ message: 'Access forbidden. Admin role required.', status: 'error' });
   } catch (error) {
     // If token is invalid, send a 401 Unauthorized response
-    res.status(401).json({ message: 'Invalid token', status: 'error' });
+    return res.status(401).json({ message: 'Invalid token', status: 'error' });
   }
 };
+
 
 export const isAdminOrSelf = (req, res, next) => {
   try {
@@ -37,7 +39,7 @@ export const isAdminOrSelf = (req, res, next) => {
     // Check if user has admin role
     if (decodedUser.role === 'admin') {
       // If user is admin, allow access to the next middleware or endpoint
-      next();
+      return next();
     }
 
     // Check if the user ID matches the ID of the user to be deleted
