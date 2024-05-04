@@ -29,7 +29,7 @@ console.clear();
 
 // Middleware setup
 app.use(cors({
-  origin: 'https://currentcruiser-client.netlify.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
