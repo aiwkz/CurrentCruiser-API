@@ -28,11 +28,11 @@ const app = express();
 console.clear();
 
 // Middleware setup
-// app.use(cors({
-//   origin: '*',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
+app.use(cors({
+  origin: ['http://localhost:5173/', 'https://currentcruiser-api.netlify.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(errorLogger);
