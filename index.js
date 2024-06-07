@@ -29,7 +29,7 @@ console.clear();
 
 // Middleware setup
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://current-cruiser-qma0rcmhi-aiwkzs-projects.vercel.app/'],
+  origin: ['http://localhost:5173', 'https://current-cruiser-qma0rcmhi-aiwkzs-projects.vercel.app/', 'https://currentcruiser-client.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
