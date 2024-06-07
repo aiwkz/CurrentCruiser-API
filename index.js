@@ -24,7 +24,7 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 
 // Initialize Express app
-const app = express();
+export const app = express();
 console.clear();
 
 // Middleware setup
