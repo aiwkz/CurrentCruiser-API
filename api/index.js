@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './database.js';
+import connectDB from '../config/database.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 

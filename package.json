@@ -2,11 +2,11 @@
   "name": "currentcruiserapi",
   "version": "1.0.0",
   "description": "A platform for exploring electric vehicles, their history, technology, and models.",
-  "main": "./config/server.js",
+  "main": "./api/index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./config/server.js",
-    "dev": "nodemon ./config/server.js",
+    "start": "node ./api/index.js",
+    "dev": "nodemon ./api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Federico Javier Perez Patiño",
