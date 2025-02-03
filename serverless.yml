@@ -1,0 +1,17 @@
+service: current-cruiser-api
+
+provider:
+    name: aws
+    runtime: nodejs18.x
+    region: us-east-1
+    environment:
+        NODE_ENV: production
+        MONGO_URI: ${env:MONGO_URI}
+
+functions:
+    app:
+        handler: server.handler
+        events:
+            - httpApi:
+                  path: /{proxy+}
+                  method: any

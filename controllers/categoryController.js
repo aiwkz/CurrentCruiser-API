@@ -1,4 +1,5 @@
 import Category from '../models/Category.js';
+import List from '../models/List.js';
 
 export const createCategory = async (req, res, next) => {
   try {

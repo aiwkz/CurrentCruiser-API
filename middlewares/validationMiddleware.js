@@ -22,6 +22,7 @@ export const isAdmin = (req, res, next) => {
     // If user is not admin, send a 403 Forbidden response
     return res.status(403).json({ message: 'Access forbidden. Admin role required.', status: 'error' });
   } catch (error) {
+    console.error('Unauthorized: ', error.message);
     // If token is invalid, send a 401 Unauthorized response
     return res.status(401).json({ message: 'Invalid token', status: 'error' });
   }
@@ -32,6 +33,9 @@ export const isAdminOrSelf = (req, res, next) => {
   try {
     // Extract user ID from request params
     const { id } = req.params;
+
+    // Extract the token from the Authorization header
+    const token = req.header('Authorization');
 
     // Verify and decode the JWT
     const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
@@ -51,6 +55,7 @@ export const isAdminOrSelf = (req, res, next) => {
     // If neither an admin nor the same user, deny the operation
     return res.status(403).json({ message: 'Forbidden: Access Denied', status: 'error' });
   } catch (error) {
+    console.error('Unauthorized: ', error.message);
     // If there's an error with JWT verification, deny the operation
     return res.status(401).json({ message: 'Unauthorized: Invalid Token', status: 'error' });
   }
