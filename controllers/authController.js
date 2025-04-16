@@ -7,6 +7,10 @@ import { createJwtToken } from '../middlewares/authMiddleware.js';
 export const registerUser = async (req, res, next) => {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res.status(400).json({ status: 'error', msg: 'All fields are required' });
+  }
+
   try {
     // Check if the user already exists
     let user = await User.findOne({ email }).lean();
@@ -51,14 +55,14 @@ export const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email }).lean();
 
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials', status: 'error' });
+      return res.status(401).json({ msg: 'Invalid credentials', status: 'error' });
     }
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials', status: 'error' });
+      return res.status(401).json({ msg: 'Invalid credentials', status: 'error' });
     }
 
     // Generate JWT token
@@ -66,7 +70,7 @@ export const loginUser = async (req, res, next) => {
 
     delete user.password;
 
-    res.status(200).json({ msg: 'User logged in correctly!', jwttoken: token, user: user, status: 'ok' })
+    res.status(200).json({ msg: 'User logged in correctly!', token, user, status: 'ok' })
   } catch (error) {
     // Pass the error to the next middleware (errorHandler)
     next(error);

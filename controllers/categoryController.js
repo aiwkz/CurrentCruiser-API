@@ -1,5 +1,4 @@
 import Category from '../models/Category.js';
-import List from '../models/List.js';
 
 export const createCategory = async (req, res, next) => {
   try {
@@ -114,7 +113,7 @@ export const deleteCategory = async (req, res, next) => {
     const { id } = req.params;
 
     // Update the category in the database with the deleted_at field
-    const categoryToDelete = await List.findByIdAndUpdate(
+    const categoryToDelete = await Category.findByIdAndUpdate(
       id,
       { deleted_at: new Date().toISOString() },
       { new: true }

@@ -1,3 +1,5 @@
+![Coverage](https://img.shields.io/badge/coverage-84%25-brightgreen)
+
 # CurrentCruiser-API
 
 Final proyect for FullStack module for the Professional Master in Web Development and Conceptualization at CEI Valencia
@@ -93,6 +95,29 @@ Errors and other relevant information are logged using middleware to aid in debu
 -   JWT (JSON Web Tokens) are used for authentication and authorization.
 -   Passwords are hashed before being stored in the database.
 -   Input validation and sanitization are implemented to prevent common security vulnerabilities.
+
+## Testing
+
+This project includes both unit and integration tests using [Vitest](https://vitest.dev/), covering:
+
+-   ✅ All core API routes (auth, users, cars, categories, lists)
+-   ✅ Controllers and error flows
+-   ✅ Middleware logic (auth, error logging, error handling)
+-   ✅ Utility logic (JWT decoding)
+
+### Run Tests
+
+To run all tests:
+
+```bash
+npm test
+```
+
+To view test coverage
+
+```bash
+npx vitest run --coverage
+```
 
 ## Acknowledgements
 
