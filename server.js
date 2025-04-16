@@ -23,14 +23,12 @@ const __dirname = dirname(__filename);
 // Load environment variables from .env file
 dotenv.config();
 
-// Get PORT number from env file or set 8080 if there is no value
-const PORT = process.env.PORT || 8080;
+// Get PORT number from env file or set 3000 if there is no value
+const PORT = process.env.PORT || 3000;
 
 const isProduction = process.env.NODE_ENV === 'production';
-
-if (!isProduction) {
-  console.log('Running in Development Mode');
-}
+const isLocal = process.env.IS_LOCAL === 'true';
+const isTest = process.env.NODE_ENV === 'test';
 
 // Initialize Express app
 const app = express();
@@ -55,7 +53,9 @@ app.use(errorLogger);
 app.use(errorHandler);
 
 // Connect to the database
-connectDB();
+if (!isTest) {
+  connectDB();
+}
 
 // Route setup
 app.use('/api', limiter);
@@ -77,12 +77,12 @@ app.use((req, res) => {
 });
 
 // Local development server (only when running locally)
-if (process.env.IS_LOCAL === 'true') {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Server running locally on http://localhost:${port}`);
+if (isLocal && !isTest && !process.env.SKIP_DB) {
+  app.listen(PORT, () => {
+    console.log(`Server running locally on http://localhost:${PORT}`);
   });
 }
 
 // Export the Lambda handler
 export const handler = serverlessExpress({ app }).handler;
+export { app }; // 👈 for testing
