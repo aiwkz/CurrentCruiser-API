@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import jwt from 'jsonwebtoken';
+
 import getUserFromJWT from '@utils/validation.ts';
-import { AuthenticatedUser } from '@types/auth.ts';
+import { AuthenticatedUser } from 'auth.ts';
+import { AppError } from '@utils/appError.ts';
 
 describe('getUserFromJWT', () => {
   vi.mock('jsonwebtoken', async () => {
@@ -36,7 +38,8 @@ describe('getUserFromJWT', () => {
 
   it('should return null if jwt throws error', () => {
     (jwt.verify as Mock).mockImplementation(() => {
-      throw new Error('Invalid token');
+      throw new AppError('Invalid token', 401, true);
+
     });
 
     const result = getUserFromJWT('invalid-token');

@@ -1,13 +1,15 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import type { JwtPayload, AuthenticatedUser } from '@types/auth.d.ts';
+
+import type { JwtPayload, AuthenticatedUser } from 'auth.d.ts';
+import { AppError } from '@utils/appError.ts';
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is not defined in environment variables');
+  throw new AppError('❌ JWT_SECRET is not defined in environment variables', 500, false);
 }
 
 const getUserFromJWT = (token: string | undefined): AuthenticatedUser | null => {

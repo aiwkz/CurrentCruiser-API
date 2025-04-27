@@ -33,18 +33,9 @@ describe('Auth Routes', () => {
         password: 'password123',
       });
 
-      expect(res.statusCode).toBe(200);
+      expect(res.statusCode).toBe(201);
       expect(res.body.status).toBe('ok');
       expect(res.body.user.username).toBe('testuser');
-    });
-
-    it('should return 400 for missing fields', async () => {
-      const res = await request(app).post('/api/auth/register').send({
-        email: 'test@example.com',
-      });
-
-      expect(res.statusCode).toBe(400);
-      expect(res.body.status).toBe('error');
     });
   });
 

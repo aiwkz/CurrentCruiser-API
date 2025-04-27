@@ -1,124 +1,123 @@
 ![Coverage](https://img.shields.io/badge/coverage-84%25-brightgreen)
 
-# CurrentCruiser-API
+# 🚗 CurrentCruiser API
 
-Final proyect for FullStack module for the Professional Master in Web Development and Conceptualization at CEI Valencia
+CurrentCruiser API provides a robust, scalable backend solution designed for managing and exploring electric vehicles (EV), including historical data, specifications, user authentication, and comprehensive CRUD operations.
 
-## Introduction
+## 🚀 Tech Stack
 
-Welcome to **CurrentCruiser**, the final project for the FullStack module of the Professional Master in Web Development and Conceptualization at CEI Valencia. This project aims to create a comprehensive platform focusing on electric cars, including their history, available brands and models, technological advancements, and user-generated lists of favorite electric cars.
+-   **Runtime:** Node.js (v18.x), TypeScript (ESM)
+-   **Framework:** Express.js
+-   **Database:** MongoDB (Mongoose)
+-   **Testing:** Vitest (unit and integration testing)
+-   **Linting & Formatting:** ESLint, Prettier
+-   **Deployment:** AWS Lambda via Serverless framework
 
-## Project Description
+## 📂 Project Structure
 
-The CurrentCruiser API is a backend service designed to manage car listings and user-created lists of cars. It provides endpoints for registering and authenticating users, managing car data, creating and manipulating user-specific lists, and basic user profile management.
+```
+current-cruiser-api/
+├── assets/
+├── config/
+├── controllers/
+├── middlewares/
+├── models/
+├── routes/
+├── tests/
+├── types/
+├── utils/
+├── server.ts
+├── vitest.config.ts
+├── eslint.config.ts
+└── serverless.yml
+```
 
-## Features
+-   **Controllers**: Business logic separated clearly from routing.
+-   **Middlewares**: Security, authentication, and validation logic.
+-   **Models**: MongoDB schemas via Mongoose.
+-   **Routes**: Clear and RESTful API endpoints.
+-   **Utils**: Utility functions and helpers.
 
--   User Authentication: Users can register, log in, and log out.
--   Car Management: CRUD (Create, Read, Update, Delete) operations for car listings.
--   List Management: CRUD operations for user-created lists of cars.
--   User Profile Management: Update and delete user profiles.
--   Role-Based Access Control: Regular users have restricted access, while admin users have full access to all resources.
--   Error Handling and Logging: Middleware is implemented to handle errors uniformly and log relevant information for debugging.
+## 🛠️ Getting Started
 
-The API is built using Node.js and Express.js, with MongoDB as the database. It utilizes JSON Web Tokens (JWT) for authentication and authorization, ensuring secure access to resources. Input validation and sanitization are implemented to prevent common security vulnerabilities.
+### Installation
 
-This API serves as the backend for a web or mobile application, allowing users to browse, create, and manage car listings and custom lists based on their preferences.
+Clone the repository and install dependencies:
 
-## Technologies Used
+```bash
+git clone https://github.com/aiwkz/CurrentCruiser.git
+cd CurrentCruiser
+npm install
+```
 
--   Node.js
--   Express.js
--   MongoDB
+### Environment Variables
 
-## Installation
+Create a `.env` file from `.env.example`:
 
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Install dependencies with `npm install`.
-4. Set up environment variables:
-    - Create a `.env` file in the root directory.
-    - Define the following variables in the `.env` file:
-        ```
-        PORT=8080
-        MONGODB_URI=<your_mongodb_uri>
-        JWT_SECRET=<your_jwt_secret>
-        ```
-5. Start the server with `npm start`.
+```env
+NODE_ENV=development
+MONGO_URI=mongodb://localhost:27017/currentcruiser
+JWT_SECRET=your_secret_key_here
+```
 
-## API Endpoints
+### Scripts
 
-### Authentication
+-   **Development Server:** `npm run dev`
+-   **Production Server:** `npm start`
+-   **Lint:** `npm run lint`
+-   **Test:** `npm test`
 
--   `POST /api/auth/register`: Register a new user.
--   `POST /api/auth/login`: Log in an existing user.
--   `GET /api/auth/logout`: Log out the current user.
+## ✅ Testing & Coverage
 
-### Cars
+The API utilizes **Vitest** for comprehensive unit and integration testing. Coverage thresholds:
 
--   `POST /api/cars/create`: Create a new car.
--   `GET /api/cars/all`: Get all cars.
--   `GET /api/cars/:id`: Get a car by ID.
--   `PUT /api/cars/:id`: Update a car by ID.
--   `DELETE /api/cars/:id`: Delete a car by ID.
+-   Statements: 80%
+-   Functions: 80%
+-   Lines: 80%
+-   Branches: 75%
 
-### Lists
-
--   `POST /api/lists/create`: Create a new list.
--   `GET /api/lists/all`: Get all lists.
--   `GET /api/lists/:id`: Get a list by ID.
--   `GET /api/lists/user/:userId`: Get lists by user ID.
--   `PUT /api/lists/:id`: Update a list by ID.
--   `DELETE /api/lists/:id`: Delete a list by ID.
-
-### Users
-
--   `GET /api/users/:id`: Get user profile by ID.
--   `PUT /api/users/:id`: Update user profile by ID.
--   `DELETE /api/users/:id`: Delete user profile by ID.
-
-## Error Handling
-
-Error handling middleware is implemented to catch and respond to errors uniformly across the API.
-
-## Logging
-
-Errors and other relevant information are logged using middleware to aid in debugging and monitoring.
-
-## Authorization
-
--   Regular users can access CRUD operations for lists and cars, and read-only operations for users.
--   Admin users have full access to CRUD operations for all resources.
-
-## Security
-
--   JWT (JSON Web Tokens) are used for authentication and authorization.
--   Passwords are hashed before being stored in the database.
--   Input validation and sanitization are implemented to prevent common security vulnerabilities.
-
-## Testing
-
-This project includes both unit and integration tests using [Vitest](https://vitest.dev/), covering:
-
--   ✅ All core API routes (auth, users, cars, categories, lists)
--   ✅ Controllers and error flows
--   ✅ Middleware logic (auth, error logging, error handling)
--   ✅ Utility logic (JWT decoding)
-
-### Run Tests
-
-To run all tests:
+Run tests using:
 
 ```bash
 npm test
 ```
 
-To view test coverage
+## 🔒 Security Practices
+
+-   **Helmet:** Protects against common security vulnerabilities.
+-   **Express-Rate-Limit:** Protects API from abuse and DDOS attacks.
+-   **JWT & Bcrypt:** Secure authentication and password handling.
+-   **CORS:** Configured for cross-origin requests.
+
+## ☁️ Deployment (AWS Lambda)
+
+The API is ready to be deployed on AWS Lambda through Serverless Framework:
 
 ```bash
-npx vitest run --coverage
+npm run predeploy
+sls deploy
 ```
 
-## Acknowledgements
+### Architecture
 
-We would like to express my gratitude to Tomás Sánchez for his guidance and support throughout the FullStack module, giving all the tools and knowledge needed for the development of this project.
+-   **AWS Lambda:** Serverless backend execution.
+-   **API Gateway:** HTTP endpoint management.
+-   **Scalability:** Automatically scales with traffic without manual intervention.
+
+## 🔎 Validation & Error Handling
+
+### Validation
+
+Data validation and type safety are strictly enforced using TypeScript. Further improvements can utilize validation libraries like Zod or Joi.
+
+### Error Handling
+
+A centralized error handling middleware ensures consistent error responses across the API.
+
+## 📦 Dependencies & Maintenance
+
+The API regularly updates dependencies and performs automated dependency checks via tools like Dependabot or Renovate to maintain security and compatibility.
+
+---
+
+Developed by Federico Javier Perez Patiño

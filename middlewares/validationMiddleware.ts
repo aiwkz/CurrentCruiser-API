@@ -2,12 +2,14 @@ import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
+import { AppError } from '@utils/appError.ts';
+
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
-  throw new Error('❌ JWT_SECRET is not defined in environment variables');
+  throw new AppError('❌ JWT_SECRET is not defined in environment variables', 500, true);
 }
 
 interface JwtUserPayload {

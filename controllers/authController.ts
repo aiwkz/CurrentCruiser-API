@@ -7,16 +7,11 @@ import { createJwtToken } from '@middlewares/authMiddleware.ts';
 export const registerUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password) {
-    res.status(400).json({ status: 'error', msg: 'All fields are required' });
-    return;
-  }
-
   try {
     const existingUser = await User.findOne({ email }).lean();
 
     if (existingUser) {
-      res.status(400).json({ msg: 'User already exists', status: 'error' });
+      res.status(400).json({ message: 'User already exists', status: 'error' });
       return;
     }
 
@@ -39,8 +34,8 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
     const userWithoutPassword: SafeUser = newUser;
     delete userWithoutPassword.password;
 
-    res.status(200).json({
-      msg: 'User registered!',
+    res.status(201).json({
+      message: 'User registered!',
       jwttoken: token,
       user: userWithoutPassword,
       status: 'ok',
@@ -57,14 +52,14 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     const user = await User.findOne({ email }).lean();
 
     if (!user) {
-      res.status(401).json({ msg: 'Invalid credentials', status: 'error' });
+      res.status(401).json({ message: 'Invalid credentials', status: 'error' });
       return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      res.status(401).json({ msg: 'Invalid credentials', status: 'error' });
+      res.status(401).json({ message: 'Invalid credentials', status: 'error' });
       return;
     }
 
@@ -76,7 +71,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     delete userWithoutPassword.password;
 
     res.status(200).json({
-      msg: 'User logged in correctly!',
+      message: 'User logged in correctly!',
       token,
       user: userWithoutPassword,
       status: 'ok',

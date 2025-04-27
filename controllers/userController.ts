@@ -1,16 +1,47 @@
 import type { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcryptjs';
 import User, { type IUser } from '@models/User.ts';
+
+export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { username, email, password, role } = req.body;
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      deleted_at: null,
+    });
+
+    await newUser.save();
+
+    type SafeUser = Omit<IUser, 'password'> & { password?: string };
+
+    const userWithoutPassword: SafeUser = newUser.toObject();
+    delete userWithoutPassword.password;
+
+    res.status(201).json({ message: 'User created successfully', user: userWithoutPassword, status: 'ok' });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const users: IUser[] = await User.find({ deleted_at: null });
 
     if (users.length === 0) {
-      res.status(404).json({ msg: 'No active users found', status: 'error' });
+      res.status(404).json({ message: 'No active users found', status: 'error' });
       return;
     }
 
-    res.status(200).json({ msg: 'All users list', users, status: 'ok' });
+    res.status(200).json({ message: 'All users list', users, status: 'ok' });
   } catch (error) {
     next(error);
   }
@@ -22,11 +53,11 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     const foundUser = await User.findById(id);
 
     if (!foundUser) {
-      res.status(404).json({ msg: 'User not found', status: 'error' });
+      res.status(404).json({ message: 'User not found', status: 'error' });
       return;
     }
 
-    res.status(200).json({ msg: 'Found user', user: foundUser, status: 'ok' });
+    res.status(200).json({ message: 'Found user', user: foundUser, status: 'ok' });
   } catch (error) {
     next(error);
   }
@@ -39,7 +70,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 
     if (!username && !email && !password) {
       res.status(400).json({
-        msg: 'At least one of username, email, or password is required',
+        message: 'At least one of username, email, or password is required',
         status: 'error',
       });
       return;
@@ -59,7 +90,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     ).lean();
 
     if (!updatedUser) {
-      res.status(404).json({ msg: 'User not found', status: 'error' });
+      res.status(404).json({ message: 'User not found', status: 'error' });
       return;
     }
 
@@ -68,7 +99,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     const userWithoutPassword: SafeUser = updatedUser;
     delete userWithoutPassword.password;
 
-    res.status(200).json({ msg: 'User updated successfully', user: userWithoutPassword, status: 'ok' });
+    res.status(200).json({ message: 'User updated successfully', user: userWithoutPassword, status: 'ok' });
 
   } catch (error) {
     next(error);
@@ -86,7 +117,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     ).lean();
 
     if (!userToDelete) {
-      res.status(404).json({ msg: 'User not found', status: 'error' });
+      res.status(404).json({ message: 'User not found', status: 'error' });
       return;
     }
 
@@ -95,7 +126,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     const userWithoutPassword: SafeUser = userToDelete;
     delete userWithoutPassword.password;
 
-    res.status(200).json({ msg: 'User deleted successfully', user: userWithoutPassword, status: 'ok' });
+    res.status(200).json({ message: 'User deleted successfully', user: userWithoutPassword, status: 'ok' });
   } catch (error) {
     next(error);
   }

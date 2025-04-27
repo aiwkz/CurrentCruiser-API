@@ -12,9 +12,9 @@ const errorLogger = async (
     const errorMessage = error.message;
     const timestamp = new Date().toISOString();
     const route = req.originalUrl;
-    const authHeader = req.headers.authorization || '';
-    const token = authHeader.split(' ')[1];
-    const user = getUserFromJWT(token);
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : undefined;
+    const user = getUserFromJWT(token) || 'unauthenticated';
 
     await ErrorLog.create({
       message: errorMessage,

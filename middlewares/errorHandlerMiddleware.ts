@@ -1,11 +1,17 @@
 import type { ErrorRequestHandler } from 'express';
+import { AppError } from '@utils/appError.ts';
 
-const errorHandler: ErrorRequestHandler = (error, req, res) => {
-  console.error('Error:', error);
+const errorHandler: ErrorRequestHandler = (error, req, res): void => {
+  const statusCode = (error as AppError).statusCode || 500;
+  const isOperational = (error as AppError).isOperational ?? false;
 
-  res.status(error.status || 500).json({
-    message: error.message || 'Internal Server Error',
+  if (!isOperational) {
+    console.error('💥 UNHANDLED ERROR:', error);
+  }
+
+  res.status(statusCode).json({
     status: 'error',
+    message: error.message || 'Something went wrong',
   });
 };
 
