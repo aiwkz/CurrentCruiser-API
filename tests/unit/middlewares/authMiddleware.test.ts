@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createJwtToken, verifyToken } from '@middlewares/authMiddleware.ts';
 import type { Request, Response, NextFunction } from 'express';
-import type { AuthenticatedUser } from '@types/auth.ts';
+import type { AuthenticatedUser } from 'auth.d.ts';
 
 const mockUser: AuthenticatedUser = { userId: 'abc123', role: 'admin' };
 
@@ -39,13 +39,13 @@ describe('authMiddleware - verifyToken', () => {
     verifyToken(mockReq as Request, mockRes as Response, mockNext);
 
     expect(mockRes.status).toHaveBeenCalledWith(401);
-    expect(mockRes.json).toHaveBeenCalledWith({ msg: 'No token found' });
+    expect(mockRes.json).toHaveBeenCalledWith({ message: 'No token found' });
     expect(mockNext).not.toHaveBeenCalled();
   });
 
   it('should return 403 for invalid token', () => {
     mockReq = {
-      header(name: string): string | undefined {
+      header(): string | undefined {
         return 'Bearer invalid.token';
       },
     } as Partial<Request>;
@@ -53,7 +53,7 @@ describe('authMiddleware - verifyToken', () => {
     verifyToken(mockReq as Request, mockRes as Response, mockNext);
 
     expect(mockRes.status).toHaveBeenCalledWith(403);
-    expect(mockRes.json).toHaveBeenCalledWith({ msg: 'Invalid token' });
+    expect(mockRes.json).toHaveBeenCalledWith({ message: 'Invalid token' });
     expect(mockNext).not.toHaveBeenCalled();
   });
 

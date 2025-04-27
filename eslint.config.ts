@@ -19,8 +19,11 @@ export default tseslint.config(
     },
     rules: {
       indent: ["error", 2],
-      "no-console": "off",
-      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    },
+      "no-console": "warn",
+      "prefer-const": "error",
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": ["warn", { allowExpressions: true }],
+      "@typescript-eslint/no-floating-promises": "error"
+    }
   }
 );

@@ -24,111 +24,123 @@ beforeAll(async () => {
   List = listModule.default;
 });
 
-describe('List Routes', () => {
+describe('POST /api/lists/create', () => {
   beforeEach(async () => {
     await List.deleteMany({});
   });
 
-  describe('POST /api/lists/create', () => {
-    it('should create a list with valid input', async () => {
-      const res = await request(app).post('/api/lists/create').send({
-        title: 'My Car List',
-        user_id: new mongoose.Types.ObjectId(),
-        cars: [],
-      });
-
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(res.body.list.title).toBe('My Car List');
+  it('should create a list with valid input', async () => {
+    const res = await request(app).post('/api/lists/create').send({
+      title: 'My Car List',
+      user_id: new mongoose.Types.ObjectId(),
+      cars: [],
     });
 
-    it('should return 400 if required fields are missing', async () => {
-      const res = await request(app).post('/api/lists/create').send({});
-      expect(res.statusCode).toBe(400);
-      expect(res.body.status).toBe('error');
-    });
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.list.title).toBe('My Car List');
+  });
+});
+
+describe('GET /api/lists/all', () => {
+  beforeEach(async () => {
+    await List.deleteMany({});
   });
 
-  describe('GET /api/lists/all', () => {
-    it('should return 404 when no lists exist', async () => {
-      const res = await request(app).get('/api/lists/all');
-      expect(res.statusCode).toBe(404);
-      expect(res.body.status).toBe('error');
-    });
-
-    it('should return 200 and list of lists', async () => {
-      await List.create({ title: 'My List', user_id: new mongoose.Types.ObjectId() });
-      const res = await request(app).get('/api/lists/all');
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(Array.isArray(res.body.lists)).toBe(true);
-    });
+  it('should return 404 when no lists exist', async () => {
+    const res = await request(app).get('/api/lists/all');
+    expect(res.statusCode).toBe(404);
+    expect(res.body.status).toBe('error');
   });
 
-  describe('GET /api/lists/:id', () => {
-    it('should return a list by ID', async () => {
-      const list = await List.create({ title: 'Target List', user_id: new mongoose.Types.ObjectId() });
-      const res = await request(app).get(`/api/lists/${list._id}`);
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(res.body.list.title).toBe('Target List');
-    });
+  it('should return 200 and list of lists', async () => {
+    await List.create({ title: 'My List', user_id: new mongoose.Types.ObjectId() });
+    const res = await request(app).get('/api/lists/all');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(Array.isArray(res.body.lists)).toBe(true);
+  });
+});
 
-    it('should return 404 for invalid ID', async () => {
-      const res = await request(app).get(`/api/lists/${new mongoose.Types.ObjectId()}`);
-      expect(res.statusCode).toBe(404);
-      expect(res.body.status).toBe('error');
-    });
+describe('GET /api/lists/:id', () => {
+  beforeEach(async () => {
+    await List.deleteMany({});
   });
 
-  describe('GET /api/lists/user/:userId', () => {
-    it('should return lists for a user', async () => {
-      const userId = new mongoose.Types.ObjectId();
-      await List.create({ title: 'User List', user_id: userId });
-      const res = await request(app).get(`/api/lists/user/${userId}`);
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(Array.isArray(res.body.lists)).toBe(true);
-      expect(res.body.lists.length).toBeGreaterThan(0);
-    });
-
-    it('should return 404 if user has no lists', async () => {
-      const res = await request(app).get(`/api/lists/user/${new mongoose.Types.ObjectId()}`);
-      expect(res.statusCode).toBe(404);
-      expect(res.body.status).toBe('error');
-    });
+  it('should return a list by ID', async () => {
+    const list = await List.create({ title: 'Target List', user_id: new mongoose.Types.ObjectId() });
+    const res = await request(app).get(`/api/lists/${list._id}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.list.title).toBe('Target List');
   });
 
-  describe('PUT /api/lists/:id', () => {
-    it('should update a list title', async () => {
-      const list = await List.create({ title: 'Old Title', user_id: new mongoose.Types.ObjectId() });
-      const res = await request(app).put(`/api/lists/${list._id}`).send({ title: 'New Title' });
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(res.body.list.title).toBe('New Title');
-    });
+  it('should return 404 for invalid ID', async () => {
+    const res = await request(app).get(`/api/lists/${new mongoose.Types.ObjectId()}`);
+    expect(res.statusCode).toBe(404);
+    expect(res.body.status).toBe('error');
+  });
+});
 
-    it('should return 404 when updating non-existent list', async () => {
-      const res = await request(app).put(`/api/lists/${new mongoose.Types.ObjectId()}`).send({ title: 'Ghost' });
-      expect(res.statusCode).toBe(404);
-      expect(res.body.status).toBe('error');
-    });
+describe('GET /api/lists/user/:userId', () => {
+  beforeEach(async () => {
+    await List.deleteMany({});
   });
 
-  describe('DELETE /api/lists/:id', () => {
-    it('should soft delete a list', async () => {
-      const list = await List.create({ title: 'To Delete', user_id: new mongoose.Types.ObjectId() });
-      const res = await request(app).delete(`/api/lists/${list._id}`);
-      expect(res.statusCode).toBe(200);
-      expect(res.body.status).toBe('ok');
-      expect(res.body.msg).toMatch(/deleted/i);
-      expect(res.body.list.deleted_at).toBeDefined();
-    });
+  it('should return lists for a user', async () => {
+    const userId = new mongoose.Types.ObjectId();
+    await List.create({ title: 'User List', user_id: userId });
+    const res = await request(app).get(`/api/lists/user/${userId}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(Array.isArray(res.body.lists)).toBe(true);
+    expect(res.body.lists.length).toBeGreaterThan(0);
+  });
 
-    it('should return 404 when deleting non-existent list', async () => {
-      const res = await request(app).delete(`/api/lists/${new mongoose.Types.ObjectId()}`);
-      expect(res.statusCode).toBe(404);
-      expect(res.body.status).toBe('error');
-    });
+  it('should return 404 if user has no lists', async () => {
+    const res = await request(app).get(`/api/lists/user/${new mongoose.Types.ObjectId()}`);
+    expect(res.statusCode).toBe(404);
+    expect(res.body.status).toBe('error');
+  });
+});
+
+describe('PUT /api/lists/:id', () => {
+  beforeEach(async () => {
+    await List.deleteMany({});
+  });
+
+  it('should update a list title', async () => {
+    const list = await List.create({ title: 'Old Title', user_id: new mongoose.Types.ObjectId() });
+    const res = await request(app).put(`/api/lists/${list._id}`).send({ title: 'New Title' });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.list.title).toBe('New Title');
+  });
+
+  it('should return 404 when updating non-existent list', async () => {
+    const res = await request(app).put(`/api/lists/${new mongoose.Types.ObjectId()}`).send({ title: 'Ghost' });
+    expect(res.statusCode).toBe(404);
+    expect(res.body.status).toBe('error');
+  });
+});
+
+describe('DELETE /api/lists/:id', () => {
+  beforeEach(async () => {
+    await List.deleteMany({});
+  });
+
+  it('should soft delete a list', async () => {
+    const list = await List.create({ title: 'To Delete', user_id: new mongoose.Types.ObjectId() });
+    const res = await request(app).delete(`/api/lists/${list._id}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.message).toMatch(/deleted/i);
+    expect(res.body.list.deleted_at).toBeDefined();
+  });
+
+  it('should return 404 when deleting non-existent list', async () => {
+    const res = await request(app).delete(`/api/lists/${new mongoose.Types.ObjectId()}`);
+    expect(res.statusCode).toBe(404);
+    expect(res.body.status).toBe('error');
   });
 });

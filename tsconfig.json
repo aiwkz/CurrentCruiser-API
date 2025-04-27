@@ -17,6 +17,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types",
@@ -50,6 +52,9 @@
       ],
       "@utils/*": [
         "utils/*"
+      ],
+      "@validators/*": [
+        "validators/*"
       ]
     },
     "types": [

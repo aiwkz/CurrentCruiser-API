@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { isAdmin } from '@middlewares/validationMiddleware.ts';
+import validateSchema from '@validators/validateSchema.ts';
 import {
   createCar,
   getAllCars,
@@ -8,13 +9,24 @@ import {
   updateCar,
   deleteCar,
 } from '@controllers/carController.ts';
+import {
+  carIdParamValidationSchema,
+  createCarValidationSchema,
+  updateCarValidationSchema
+} from 'validators/carValidationSchemas.ts';
 
 const router = Router();
 
-router.post('/create', isAdmin, createCar);
+router.post('/create', isAdmin, validateSchema(createCarValidationSchema), createCar);
 router.get('/all', getAllCars);
-router.get('/:id', getCarById);
-router.put('/:id', isAdmin, updateCar);
-router.delete('/:id', isAdmin, deleteCar);
+router.get('/:id', validateSchema(carIdParamValidationSchema, 'params'), getCarById);
+router.put(
+  '/:id',
+  isAdmin,
+  validateSchema(carIdParamValidationSchema, 'params'),
+  validateSchema(updateCarValidationSchema, 'body'),
+  updateCar
+);
+router.delete('/:id', isAdmin, validateSchema(carIdParamValidationSchema, 'params'), deleteCar);
 
 export default router;

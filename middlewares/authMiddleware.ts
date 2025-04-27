@@ -3,12 +3,14 @@ import { type JwtPayload } from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 
+import { AppError } from '@utils/appError.ts';
+
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
-  throw new Error('❌ JWT_SECRET is not defined in environment variables');
+  throw new AppError('❌ JWT_SECRET is not defined in environment variables', 500, true);
 }
 
 interface UserPayload extends JwtPayload {
@@ -30,7 +32,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
   const token = header.split(' ')[1];
 
   if (!token) {
-    res.status(401).json({ msg: 'No token found' });
+    res.status(401).json({ message: 'No token found' });
     return;
   }
 
@@ -41,6 +43,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     console.error('Token error:', message);
-    res.status(403).json({ msg: 'Invalid token' });
+    res.status(403).json({ message: 'Invalid token' });
   }
 };

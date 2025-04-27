@@ -4,16 +4,16 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
-import connectDB from './config/database.ts';
+import connectDB from '@config/database.ts';
 
-import errorLogger from './middlewares/errorLoggerMiddleware.ts';
-import errorHandler from './middlewares/errorHandlerMiddleware.ts';
+import errorLogger from '@middlewares/errorLoggerMiddleware.ts';
+import errorHandler from '@middlewares/errorHandlerMiddleware.ts';
 
-import authRoutes from './routes/authRoutes.ts';
-import carRoutes from './routes/carRoutes.ts';
-import listRoutes from './routes/listRoutes.ts';
-import userRoutes from './routes/userRoutes.ts';
-import categoriesRoutes from './routes/categoryRoutes.ts';
+import authRoutes from '@routes/authRoutes.ts';
+import carRoutes from '@routes/carRoutes.ts';
+import listRoutes from '@routes/listRoutes.ts';
+import userRoutes from '@routes/userRoutes.ts';
+import categoriesRoutes from '@routes/categoryRoutes.ts';
 
 dotenv.config();
 
@@ -47,7 +47,7 @@ app.use(errorLogger);
 app.use(errorHandler);
 
 if (!isTest) {
-  connectDB().then(() => {
+  await connectDB().then(() => {
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });

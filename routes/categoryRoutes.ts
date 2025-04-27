@@ -1,6 +1,12 @@
 import { Router } from 'express';
 
 import { isAdmin } from '@middlewares/validationMiddleware.ts';
+import validateSchema from '@validators/validateSchema.ts';
+import {
+  createCategoryValidationSchema,
+  updateCategoryValidationSchema,
+  categoryIdParamValidationSchema
+} from '@validators/categoryValidationSchemas.ts';
 import {
   createCategory,
   getAllCategories,
@@ -11,10 +17,16 @@ import {
 
 const router = Router();
 
-router.post('/create', createCategory);
+router.post('/create', isAdmin, validateSchema(createCategoryValidationSchema), createCategory);
 router.get('/all', isAdmin, getAllCategories);
-router.get('/:id', getCategoryById);
-router.put('/:id', updateCategory);
-router.delete('/:id', deleteCategory);
+router.get('/:id', validateSchema(categoryIdParamValidationSchema, 'params'), getCategoryById);
+router.put(
+  '/:id',
+  isAdmin,
+  validateSchema(categoryIdParamValidationSchema, 'params'),
+  validateSchema(updateCategoryValidationSchema, 'body'),
+  updateCategory
+);
+router.delete('/:id', isAdmin, validateSchema(categoryIdParamValidationSchema, 'params'), deleteCategory);
 
 export default router;
