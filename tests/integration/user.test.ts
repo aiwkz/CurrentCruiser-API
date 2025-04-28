@@ -4,13 +4,13 @@ import { describe, it, expect, beforeEach, beforeAll, vi } from 'vitest';
 import type { Application, Request, Response, NextFunction } from 'express';
 import type { Model } from 'mongoose';
 
-import type { IUser } from '@models/User.ts';
+import type { IUser } from '../../models/User.ts';
 
-vi.mock('@middlewares/auth.ts', () => ({
+vi.mock('../../utils/auth.ts', () => ({
   auth: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
 
-vi.mock('@middlewares/validationMiddleware.ts', () => ({
+vi.mock('../../middlewares/validationMiddleware.ts', () => ({
   isAdmin: (_req: Request, _res: Response, next: NextFunction) => next(),
   isAdminOrSelf: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
@@ -19,10 +19,10 @@ let app: Application;
 let User: Model<IUser>;
 
 beforeAll(async () => {
-  const appModule = await import('server.ts');
+  const appModule = await import('../../server.ts');
   app = appModule.app;
 
-  const userModule = await import('@models/User.ts');
+  const userModule = await import('../../models/User.ts');
   User = userModule.default;
 });
 

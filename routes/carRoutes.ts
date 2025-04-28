@@ -1,19 +1,19 @@
 import { Router } from 'express';
 
-import { isAdmin } from '@middlewares/validationMiddleware.ts';
-import validateSchema from '@validators/validateSchema.ts';
+import { isAdmin } from '../middlewares/validationMiddleware.ts';
+import validateSchema from '../validators/validateSchema.ts';
 import {
   createCar,
   getAllCars,
   getCarById,
   updateCar,
   deleteCar,
-} from '@controllers/carController.ts';
+} from '../controllers/carController.ts';
 import {
   carIdParamValidationSchema,
   createCarValidationSchema,
   updateCarValidationSchema
-} from 'validators/carValidationSchemas.ts';
+} from '../validators/carValidationSchemas.ts';
 
 const router = Router();
 

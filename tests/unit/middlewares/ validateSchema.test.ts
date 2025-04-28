@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Request, Response } from 'express';
-import validateSchema from '@validators/validateSchema.ts';
-import { createCarValidationSchema, carIdParamValidationSchema } from '@validators/carValidationSchemas.ts';
+import validateSchema from '../../../validators/validateSchema.ts';
+import { createCarValidationSchema, carIdParamValidationSchema } from '../../../validators/carValidationSchemas.ts';
 
 describe('validateSchema', () => {
   it('calls next() for valid body input and mutates req.body', () => {

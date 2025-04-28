@@ -4,7 +4,7 @@ import {
   createUserValidationSchema,
   updateUserValidationSchema,
   userIdParamValidationSchema,
-} from '@validators/userValidationSchemas.ts';
+} from '../../../validators/userValidationSchemas.ts';
 
 describe('createUserValidationSchema', () => {
   it('validates a correct payload', () => {

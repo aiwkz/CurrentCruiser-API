@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import { vi, describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import type { Application, Request, Response, NextFunction } from 'express';
 import type { Model } from 'mongoose';
-import type { IList } from '@models/List.ts';
+import type { IList } from '../../models/List.ts';
 
-vi.mock('@middlewares/auth.ts', () => ({
+vi.mock('../../utils/auth.ts', () => ({
   auth: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
 
-vi.mock('@middlewares/validationMiddleware.ts', () => ({
+vi.mock('../../middlewares/validationMiddleware.ts', () => ({
   isAdmin: (_req: Request, _res: Response, next: NextFunction) => next(),
   isAdminOrSelf: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
@@ -18,8 +18,8 @@ let app: Application;
 let List: Model<IList>;
 
 beforeAll(async () => {
-  const appModule = await import('server.ts');
-  const listModule = await import('@models/List.ts');
+  const appModule = await import('../../server.ts');
+  const listModule = await import('../../models/List.ts');
   app = appModule.app;
   List = listModule.default;
 });

@@ -1,8 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import logger from '../utils/logger.ts';
 
-import { AppError } from '@utils/appError.ts';
+import { AppError } from '../utils/appError.ts';
 
 dotenv.config();
 
@@ -35,7 +36,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
     res.status(403).json({ message: 'Access forbidden. Admin role required.', status: 'error' });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error('Unauthorized:', message);
+    logger.error('Unauthorized:', message);
     res.status(401).json({ message: 'Invalid token', status: 'error' });
   }
 };
@@ -59,7 +60,7 @@ export const isAdminOrSelf = (req: Request, res: Response, next: NextFunction): 
     res.status(403).json({ message: 'Forbidden: Access Denied', status: 'error' });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error('Unauthorized:', message);
+    logger.error('Unauthorized:', message);
     res.status(401).json({ message: 'Unauthorized: Invalid Token', status: 'error' });
   }
 };

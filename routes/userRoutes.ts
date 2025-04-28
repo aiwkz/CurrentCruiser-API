@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import { isAdmin, isAdminOrSelf } from '@middlewares/validationMiddleware.ts';
-import validateSchema from '@validators/validateSchema.ts';
+import { isAdmin, isAdminOrSelf } from '../middlewares/validationMiddleware.ts';
+import validateSchema from '../validators/validateSchema.ts';
 import {
   createUserValidationSchema,
   updateUserValidationSchema,
   userIdParamValidationSchema
-} from '@validators/userValidationSchemas.ts';
+} from '../validators/userValidationSchemas.ts';
 import {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
-} from '@controllers/userController.ts';
+} from '../controllers/userController.ts';
 
 const router = Router();
 

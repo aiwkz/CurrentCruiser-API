@@ -1,19 +1,19 @@
 import { Router } from 'express';
 
-import { isAdmin } from '@middlewares/validationMiddleware.ts';
-import validateSchema from '@validators/validateSchema.ts';
+import { isAdmin } from '../middlewares/validationMiddleware.ts';
+import validateSchema from '../validators/validateSchema.ts';
 import {
   createCategoryValidationSchema,
   updateCategoryValidationSchema,
   categoryIdParamValidationSchema
-} from '@validators/categoryValidationSchemas.ts';
+} from '../validators/categoryValidationSchemas.ts';
 import {
   createCategory,
   getAllCategories,
   getCategoryById,
   updateCategory,
   deleteCategory,
-} from '@controllers/categoryController.ts';
+} from '../controllers/categoryController.ts';
 
 const router = Router();
 

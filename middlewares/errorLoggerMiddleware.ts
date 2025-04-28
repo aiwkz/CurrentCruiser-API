@@ -1,11 +1,13 @@
 import type { Request, Response, NextFunction } from 'express';
-import ErrorLog from '@models/ErrorLog.ts';
-import getUserFromJWT from '@utils/validation.ts';
+import ErrorLog from '../models/ErrorLog.ts';
+import logger from '../utils/logger.ts';
+
+import getUserFromJWT from '../utils/validation.ts';
 
 const errorLogger = async (
   error: Error,
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
@@ -25,7 +27,7 @@ const errorLogger = async (
 
     next(error);
   } catch (tryError) {
-    console.error('❌ Error logging failed:', tryError);
+    logger.error('❌ Error logging failed:', tryError);
     next(error);
   }
 };

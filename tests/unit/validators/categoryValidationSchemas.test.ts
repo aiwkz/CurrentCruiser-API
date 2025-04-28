@@ -4,7 +4,7 @@ import {
   createCategoryValidationSchema,
   updateCategoryValidationSchema,
   categoryIdParamValidationSchema,
-} from '@validators/categoryValidationSchemas.ts';
+} from '../../../validators/categoryValidationSchemas.ts';
 
 describe('createCategoryValidationSchema', () => {
   it('validates a correct payload', () => {

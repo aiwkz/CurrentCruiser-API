@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Request, Response, NextFunction } from 'express';
 
-import errorLogger from '@middlewares/errorLoggerMiddleware.ts';
-import ErrorLog from '@models/ErrorLog.ts';
-import { createJwtToken } from '@middlewares/authMiddleware.ts';
-import { AppError } from '@utils/appError.ts';
+import errorLogger from '../../../middlewares/errorLoggerMiddleware.ts';
+import ErrorLog from '../../../models/ErrorLog.ts';
+import { createJwtToken } from '../../../middlewares/authMiddleware.ts';
+import { AppError } from '../../../utils/appError.ts';
+import logger from '../../../utils/logger.ts';
 
 describe('errorLoggerMiddleware', () => {
   const error = new Error('Test error');
@@ -54,17 +55,17 @@ describe('errorLoggerMiddleware', () => {
       throw new AppError('DB fail', 500, true);
     });
 
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = vi.spyOn(logger, 'error').mockImplementation(() => logger);
 
     await errorLogger(error, mockReq, mockRes, mockNext);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(loggerSpy).toHaveBeenCalledWith(
       expect.stringContaining('Error logging failed:'),
       expect.any(Error)
     );
 
     expect(mockNext).toHaveBeenCalledWith(error);
 
-    consoleSpy.mockRestore();
+    loggerSpy.mockRestore();
   });
 });

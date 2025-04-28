@@ -2,8 +2,9 @@ import * as jwt from 'jsonwebtoken';
 import { type JwtPayload } from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import logger from '../utils/logger.ts';
 
-import { AppError } from '@utils/appError.ts';
+import { AppError } from '../utils/appError.ts';
 
 dotenv.config();
 
@@ -42,7 +43,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
     next();
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error('Token error:', message);
+    logger.error('Token error:', message);
     res.status(403).json({ message: 'Invalid token' });
   }
 };

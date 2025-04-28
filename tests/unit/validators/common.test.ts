@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { objectIdValidation } from '@validators/common.ts';
+import { objectIdValidation } from '../../../validators/common.ts';
 
 describe('objectIdValidation', () => {
   it('validates a correct 24-char hex string', () => {

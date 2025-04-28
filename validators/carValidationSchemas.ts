@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { objectIdValidation } from '@validators/common.ts';
+import { objectIdValidation } from '../validators/common.ts';
 
 const specificationsSchema = z.object({
   motor: z.string().min(1, { message: 'Motor is required' }),

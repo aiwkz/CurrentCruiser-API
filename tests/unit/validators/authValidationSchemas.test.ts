@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import {
   registerValidationSchema,
   loginValidationSchema,
-} from '@validators/authValidationSchemas.ts';
+} from '../../../validators/authValidationSchemas.ts';
 
 describe('registerValidationSchema', () => {
   it('validates a correct payload', () => {

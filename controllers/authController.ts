@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 
-import User, { type IUser } from '@models/User.ts';
-import { createJwtToken } from '@middlewares/authMiddleware.ts';
+import User, { type IUser } from '../models/User.ts';
+import { createJwtToken } from '../middlewares/authMiddleware.ts';
 
 export const registerUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { username, email, password } = req.body;
