@@ -3,23 +3,23 @@ import mongoose from 'mongoose';
 import { vi, describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import type { Application, Request, Response, NextFunction } from 'express';
 import type { Model, Document } from 'mongoose';
-import type { ICategory } from '@models/Category.ts';
+import type { ICategory } from '../../models/Category.ts';
 
-vi.mock('@middlewares/auth', () => ({
+vi.mock('../../utils/auth.ts', () => ({
   auth: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
 
-vi.mock('@middlewares/validationMiddleware.ts', () => ({
-  isAdmin: (_req: Request, _res: Response, _next: NextFunction) => _next(),
-  isAdminOrSelf: (_req: Request, _res: Response, _next: NextFunction) => _next(),
+vi.mock('../../middlewares/validationMiddleware.ts', () => ({
+  isAdmin: (_req: Request, _res: Response, next: NextFunction) => next(),
+  isAdminOrSelf: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
 
 let app: Application;
 let Category: Model<ICategory & Document>;
 
 beforeAll(async () => {
-  const appModule = await import('server.ts');
-  const categoryModule = await import('@models/Category.ts');
+  const appModule = await import('../../server.ts');
+  const categoryModule = await import('../../models/Category.ts');
 
   app = appModule.app;
   Category = categoryModule.default;

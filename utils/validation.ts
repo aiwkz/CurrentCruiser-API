@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import logger from '../utils/logger.ts';
 
 import type { JwtPayload, AuthenticatedUser } from 'auth.d.ts';
-import { AppError } from '@utils/appError.ts';
+import { AppError } from '../utils/appError.ts';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const getUserFromJWT = (token: string | undefined): AuthenticatedUser | null => 
     return decoded.user;
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error('Error decoding JWT:', message);
+    logger.error('Error decoding JWT:', message);
     return null;
   }
 };

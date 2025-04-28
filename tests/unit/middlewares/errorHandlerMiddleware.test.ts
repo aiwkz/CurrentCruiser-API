@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import errorHandler from '@middlewares/errorHandlerMiddleware.ts';
 import type { Request, Response, NextFunction } from 'express';
+
+import errorHandler from '../../../middlewares/errorHandlerMiddleware.ts'
+import logger from '../../../utils/logger.ts';
 
 describe('errorHandlerMiddleware', () => {
   const mockReq = {} as Request;
@@ -20,46 +22,46 @@ describe('errorHandlerMiddleware', () => {
     const error = new Error('Custom error') as Error & { status?: number };
     error.status = 418;
 
-    const consoleSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = vi.spyOn(logger, 'error').mockImplementation(() => logger);
 
     await errorHandler(error, mockReq, mockRes, mockNext);
 
-    expect(consoleSpy).toHaveBeenCalledWith('💥 UNHANDLED ERROR:', error);
+    expect(loggerSpy).toHaveBeenCalledWith('💥 UNHANDLED ERROR:', error);
     expect(mockRes.status).toHaveBeenCalledWith(500);
     expect(mockRes.json).toHaveBeenCalledWith({
       message: 'Custom error',
       status: 'error',
     });
 
-    consoleSpy.mockRestore();
+    loggerSpy.mockRestore();
   });
 
   it('should fallback to 500 and generic message if not provided', async () => {
     const error = {} as Error;
 
-    const consoleSpy: ReturnType<typeof vi.spyOn> = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = vi.spyOn(logger, 'error').mockImplementation(() => logger);
 
     await errorHandler(error, mockReq, mockRes, mockNext);
 
-    expect(consoleSpy).toHaveBeenCalledWith('💥 UNHANDLED ERROR:', error);
+    expect(loggerSpy).toHaveBeenCalledWith('💥 UNHANDLED ERROR:', error);
     expect(mockRes.status).toHaveBeenCalledWith(500);
     expect(mockRes.json).toHaveBeenCalledWith({
       message: 'Something went wrong',
       status: 'error',
     });
 
-    consoleSpy.mockRestore();
+    loggerSpy.mockRestore();
   });
 
   it('should not call next when responding to error', async () => {
     const error = new Error('Something went wrong');
 
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = vi.spyOn(logger, 'error').mockImplementation(() => logger);
 
     await errorHandler(error, mockReq, mockRes, mockNext);
 
     expect(mockNext).not.toHaveBeenCalled();
 
-    consoleSpy.mockRestore();
+    loggerSpy.mockRestore();
   });
 });

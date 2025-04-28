@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import Category, { type ICategory } from '@models/Category.ts';
+import Category, { type ICategory } from '../models/Category.ts';
 
 export const createCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -13,7 +13,7 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const getAllCategories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getAllCategories = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const categories: ICategory[] = await Category.find();
 

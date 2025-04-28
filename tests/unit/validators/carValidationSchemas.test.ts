@@ -4,7 +4,7 @@ import {
   createCarValidationSchema,
   updateCarValidationSchema,
   carIdParamValidationSchema,
-} from '@validators/carValidationSchemas.ts';
+} from '../../../validators/carValidationSchemas.ts';
 
 describe('createCarValidationSchema', () => {
   it('validates a correct payload', () => {

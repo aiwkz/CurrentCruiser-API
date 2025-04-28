@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
-import { isAdmin } from '@middlewares/validationMiddleware.ts';
-import validateSchema from '@validators/validateSchema.ts';
+import { isAdmin } from '../middlewares/validationMiddleware.ts';
+import validateSchema from '../validators/validateSchema.ts';
 import {
   createListValidationSchema,
   updateListValidationSchema,
   listIdParamValidationSchema,
   userIdParamValidationSchema
-} from '@validators/listValidationSchemas.ts';
+} from '../validators/listValidationSchemas.ts';
 import {
   createList,
   getAllLists,
@@ -15,7 +15,7 @@ import {
   getListsByUserId,
   updateList,
   deleteList,
-} from '@controllers/listController.ts';
+} from '../controllers/listController.ts';
 
 const router = Router();
 

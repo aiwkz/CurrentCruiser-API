@@ -1,12 +1,13 @@
 import type { ErrorRequestHandler } from 'express';
-import { AppError } from '@utils/appError.ts';
+import { AppError } from '../utils/appError.ts';
+import logger from '../utils/logger.ts';
 
-const errorHandler: ErrorRequestHandler = (error, req, res): void => {
+const errorHandler: ErrorRequestHandler = (error, _req, res): void => {
   const statusCode = (error as AppError).statusCode || 500;
   const isOperational = (error as AppError).isOperational ?? false;
 
   if (!isOperational) {
-    console.error('💥 UNHANDLED ERROR:', error);
+    logger.error('💥 UNHANDLED ERROR:', error);
   }
 
   res.status(statusCode).json({

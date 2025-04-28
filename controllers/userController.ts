@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import User, { type IUser } from '@models/User.ts';
+import User, { type IUser } from '../models/User.ts';
 
 export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -32,7 +32,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getAllUsers = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const users: IUser[] = await User.find({ deleted_at: null });
 

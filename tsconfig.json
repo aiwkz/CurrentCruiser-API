@@ -6,6 +6,7 @@
       "ES2022"
     ],
     "moduleResolution": "NodeNext",
+    "outDir": "./dist",
     "allowJs": true,
     "checkJs": false,
     "declaration": true,
@@ -19,44 +20,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/vitest",
       "./types"
     ],
-    "paths": {
-      "@assets/*": [
-        "assets/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@middlewares/*": [
-        "middlewares/*"
-      ],
-      "@models/*": [
-        "models/*"
-      ],
-      "@routes/*": [
-        "routes/*"
-      ],
-      "@tests/*": [
-        "tests/*"
-      ],
-      "@types/*": [
-        "types/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@validators/*": [
-        "validators/*"
-      ]
-    },
     "types": [
       "node"
     ]

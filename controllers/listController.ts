@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import List, { type IList } from '@models/List.ts';
+import List, { type IList } from '../models/List.ts';
 
 export const createList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -13,7 +13,7 @@ export const createList = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const getAllLists = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getAllLists = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const lists: IList[] = await List.find({ deleted_at: null });
 

@@ -5,7 +5,7 @@ import {
   updateListValidationSchema,
   listIdParamValidationSchema,
   userIdParamValidationSchema,
-} from '@validators/listValidationSchemas.ts';
+} from '../../../validators/listValidationSchemas.ts';
 
 describe('createListValidationSchema', () => {
   it('validates a correct payload', () => {

@@ -1,8 +1,10 @@
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-/** @type {import('eslint').Linter.Config} */
-export default tseslint.config(
+export default [
+  {
+    ignores: ["dist/**", "coverage/**"],
+  },
   ...tseslint.configs.recommended,
   {
     languageOptions: {
@@ -19,11 +21,11 @@ export default tseslint.config(
     },
     rules: {
       indent: ["error", 2],
-      "no-console": "warn",
+      "no-console": "error",
       "prefer-const": "error",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/explicit-function-return-type": ["warn", { allowExpressions: true }],
       "@typescript-eslint/no-floating-promises": "error"
-    }
-  }
-);
+    },
+  },
+];

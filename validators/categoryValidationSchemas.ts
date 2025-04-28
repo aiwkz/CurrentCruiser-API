@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { objectIdValidation } from '@validators/common.ts';
+import { objectIdValidation } from '../validators/common.ts';
 
 export const createCategoryValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is a required field' }),

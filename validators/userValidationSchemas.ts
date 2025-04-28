@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { objectIdValidation } from '@validators/common.ts';
+import { objectIdValidation } from '../validators/common.ts';
 
 export const createUserValidationSchema = z.object({
   username: z.string().min(1, { message: 'Username is required' }),

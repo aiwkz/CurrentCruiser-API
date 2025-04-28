@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import { vi, describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import type { Application, Request, Response, NextFunction } from 'express';
 import type { Model } from 'mongoose';
-import type { ICar } from '@models/Car.ts';
+import type { ICar } from '../../models/Car.ts';
 
-vi.mock('@middlewares/auth', () => ({
+vi.mock('../../utils/auth.ts', () => ({
   auth: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
 
-vi.mock('@middlewares/validationMiddleware.ts', () => ({
+vi.mock('../../middlewares/validationMiddleware.ts', () => ({
   isAdmin: (_req: Request, _res: Response, next: NextFunction) => next(),
   isAdminOrSelf: (_req: Request, _res: Response, next: NextFunction) => next(),
 }));
@@ -18,8 +18,8 @@ let app: Application;
 let Car: Model<ICar>;
 
 beforeAll(async () => {
-  const appModule = await import('server.ts');
-  const carModule = await import('@models/Car.ts');
+  const appModule = await import('../../server.ts');
+  const carModule = await import('../../models/Car.ts');
   app = appModule.app;
   Car = carModule.default;
 });
