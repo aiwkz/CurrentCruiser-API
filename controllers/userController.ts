@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
+
 import User, { type IUser } from '../models/User.ts';
 
 export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

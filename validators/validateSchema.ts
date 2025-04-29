@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { ZodSchema } from 'zod';
-import logger from '../utils/logger.ts';
 
+import logger from '../utils/logger.ts';
 import { AppError } from '../utils/appError.ts';
 
 const validateSchema = (

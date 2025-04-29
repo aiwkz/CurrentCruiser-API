@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import logger from '../utils/logger.ts';
 
+import logger from '../utils/logger.ts';
 import { AppError } from '../utils/appError.ts';
 
 dotenv.config();

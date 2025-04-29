@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { createJwtToken, verifyToken } from '../../../middlewares/authMiddleware.ts';
+
 import type { Request, Response, NextFunction } from 'express';
 import type { AuthenticatedUser } from 'auth.d.ts';
+
+import { createJwtToken, verifyToken } from '../../../middlewares/authMiddleware.ts';
 
 const mockUser: AuthenticatedUser = { userId: 'abc123', role: 'admin' };
 

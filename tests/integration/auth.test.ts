@@ -1,7 +1,9 @@
 import request from 'supertest';
 import { vi, describe, it, expect, beforeAll, beforeEach } from 'vitest';
+
 import type { Application, Request, Response, NextFunction } from 'express';
 import type { Model } from 'mongoose';
+
 import type { IUser } from '../../models/User.ts';
 
 vi.mock('../middlewares/validationMiddleware.ts', () => ({

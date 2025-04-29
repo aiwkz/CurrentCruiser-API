@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import jwt from 'jsonwebtoken';
-import { isAdmin, isAdminOrSelf } from '../../../middlewares/validationMiddleware.ts';
+
 import type { Request, Response, NextFunction } from 'express';
+
+import { isAdmin, isAdminOrSelf } from '../../../middlewares/validationMiddleware.ts';
 
 vi.mock('jsonwebtoken');
 

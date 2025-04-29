@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
+
 import ErrorLog from '../models/ErrorLog.ts';
 import logger from '../utils/logger.ts';
-
 import getUserFromJWT from '../utils/validation.ts';
 
 const errorLogger = async (

@@ -1,4 +1,5 @@
 import type { ErrorRequestHandler } from 'express';
+
 import { AppError } from '../utils/appError.ts';
 import logger from '../utils/logger.ts';
 

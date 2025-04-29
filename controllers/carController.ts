@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+
 import Car, { type ICar } from '../models/Car.ts';
 
 export const createCar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
