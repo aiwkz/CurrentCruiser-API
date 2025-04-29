@@ -6,7 +6,7 @@ provider:
     region: us-east-1
     environment:
         NODE_ENV: production
-        MONGO_URI: ${env:MONGO_URI}
+        MONGO_URI: ${ssm:/current-cruiser-api/MONGO_URI}
 
 functions:
     app:
