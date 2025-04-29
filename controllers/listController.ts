@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+
 import List, { type IList } from '../models/List.ts';
 
 export const createList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

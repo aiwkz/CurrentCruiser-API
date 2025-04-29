@@ -2,8 +2,8 @@ import * as jwt from 'jsonwebtoken';
 import { type JwtPayload } from 'jsonwebtoken';
 import type { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
-import logger from '../utils/logger.ts';
 
+import logger from '../utils/logger.ts';
 import { AppError } from '../utils/appError.ts';
 
 dotenv.config();

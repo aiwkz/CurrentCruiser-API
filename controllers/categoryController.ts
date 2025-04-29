@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+
 import Category, { type ICategory } from '../models/Category.ts';
 
 export const createCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

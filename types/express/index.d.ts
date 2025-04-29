@@ -1,4 +1,5 @@
 import 'express';
+
 import { AuthenticatedUser } from '../auth';
 
 declare module 'express' {
