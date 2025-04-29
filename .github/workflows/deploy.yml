@@ -19,13 +19,17 @@ jobs:
                   node-version: '18'
 
             - name: Install dependencies
-              run: npm install
+              run: npm ci
+
+            - name: Run tests
+              run: npm test
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-1
 
             - name: Deploy with Serverless Framework
-              env:
-                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  AWS_REGION: 'us-east-1'
-                  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-                  MONGO_URI: ${{ secrets.MONGO_URI }}
               run: npx serverless deploy
