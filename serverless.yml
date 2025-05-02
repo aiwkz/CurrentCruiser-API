@@ -6,7 +6,9 @@ provider:
     region: us-east-1
     environment:
         NODE_ENV: production
-        MONGO_URI: ${ssm:/current-cruiser-api/MONGO_URI}
+        MONGODB_URI: ${ssm:/current-cruiser-api/MONGODB_URI}
+        JWT_SECRET: ${ssm:/current-cruiser-api/JWT_SECRET}
+        NODE_OPTIONS: --enable-source-maps
 
 functions:
     app:
