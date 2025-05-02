@@ -27,6 +27,9 @@ jobs:
             - name: Build
               run: npm run build
 
+            - name: Debug env
+              run: printenv | grep JWT
+
             - name: Run tests
               env:
                   MONGODB_URI: ${{ secrets.MONGODB_URI }}
