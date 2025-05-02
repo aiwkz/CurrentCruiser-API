@@ -27,15 +27,14 @@ jobs:
             - name: Build
               run: npm run build
 
-            - name: Debug env
-              run: printenv | grep JWT
-
             - name: Run tests
               env:
                   MONGODB_URI: ${{ secrets.MONGODB_URI }}
                   JWT_SECRET: ${{ secrets.JWT_SECRET }}
                   NODE_ENV: test
-              run: npm test
+              run: |
+                  printenv | grep JWT
+                  npm test
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v4
