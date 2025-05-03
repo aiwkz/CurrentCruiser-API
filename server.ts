@@ -31,8 +31,20 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.'
 });
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://currentcruiser.com',
+  'https://opcdphe5pov7inoqdet35jw4cy0gjksm.lambda-url.us-east-1.on.aws'
+];
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://currentcruiser.com'],
+  origin: (origin, callback) => {
+    if (origin && allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(helmet());
