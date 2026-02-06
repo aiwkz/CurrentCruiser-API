@@ -1,4 +1,6 @@
 import express, { type Application } from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import serverlessExpress from './utils/serverlessExpress.ts';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -28,30 +30,41 @@ const app: Application = express();
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
-  message: 'Too many requests from this IP, please try again later.'
+  message: 'Too many requests from this IP, please try again later.',
 });
 
 const allowedOrigins = [
   'http://localhost:5173',
   'https://currentcruiser.com',
-  'https://opcdphe5pov7inoqdet35jw4cy0gjksm.lambda-url.us-east-1.on.aws'
+  'https://opcdphe5pov7inoqdet35jw4cy0gjksm.lambda-url.us-east-1.on.aws',
 ];
 
-app.use(cors({
-  origin: isTest
-    ? true
-    : (origin, callback) => {
-      if (origin && allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error('Not allowed by CORS'));
-      }
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true); // curl/postman/server-to-server
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error(`CORS blocked: ${origin}`));
     },
-  credentials: true
-}));
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(express.json());
-app.use(limiter);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(
+  '/api/assets/images',
+  express.static(path.join(__dirname, 'assets/images'), {
+    setHeaders: res => {
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
+  })
+);
+
+app.use('/api', limiter);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
