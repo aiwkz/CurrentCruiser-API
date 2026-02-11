@@ -10,7 +10,11 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
-  throw new AppError('❌ JWT_SECRET is not defined in environment variables', 500, true);
+  throw new AppError(
+    '❌ JWT_SECRET is not defined in environment variables',
+    500,
+    true
+  );
 }
 
 interface JwtUserPayload {
@@ -18,11 +22,18 @@ interface JwtUserPayload {
   role: string;
 }
 
-export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
-  const token = req.header('Authorization');
+export const isAdmin = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const header = req.header('Authorization') || '';
+  const token = header.startsWith('Bearer ') ? header.split(' ')[1] : header;
 
   if (!token) {
-    res.status(401).json({ message: 'No token, authorization denied', status: 'error' });
+    res
+      .status(401)
+      .json({ message: 'No token, authorization denied', status: 'error' });
     return;
   }
 
@@ -33,7 +44,10 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
       return next();
     }
 
-    res.status(403).json({ message: 'Access forbidden. Admin role required.', status: 'error' });
+    res.status(403).json({
+      message: 'Access forbidden. Admin role required.',
+      status: 'error',
+    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error('Unauthorized:', message);
@@ -41,12 +55,19 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
   }
 };
 
-export const isAdminOrSelf = (req: Request, res: Response, next: NextFunction): void => {
+export const isAdminOrSelf = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   const { id } = req.params;
-  const token = req.header('Authorization');
+  const header = req.header('Authorization') || '';
+  const token = header.startsWith('Bearer ') ? header.split(' ')[1] : header;
 
   if (!token) {
-    res.status(401).json({ message: 'No token, authorization denied', status: 'error' });
+    res
+      .status(401)
+      .json({ message: 'No token, authorization denied', status: 'error' });
     return;
   }
 
@@ -57,10 +78,14 @@ export const isAdminOrSelf = (req: Request, res: Response, next: NextFunction): 
       return next();
     }
 
-    res.status(403).json({ message: 'Forbidden: Access Denied', status: 'error' });
+    res
+      .status(403)
+      .json({ message: 'Forbidden: Access Denied', status: 'error' });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error('Unauthorized:', message);
-    res.status(401).json({ message: 'Unauthorized: Invalid Token', status: 'error' });
+    res
+      .status(401)
+      .json({ message: 'Unauthorized: Invalid Token', status: 'error' });
   }
 };
