@@ -27,7 +27,8 @@ export const isAdmin = (
   res: Response,
   next: NextFunction
 ): void => {
-  const header = req.header('Authorization') || '';
+  const authHeader = req.header('Authorization');
+  const header = authHeader || '';
   const token = header.startsWith('Bearer ') ? header.split(' ')[1] : header;
 
   if (!token) {
